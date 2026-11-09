@@ -1,0 +1,994 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#09070e">
+<title>A Little Universe For You</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600&family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:wght@300;400;500&display=swap');
+
+:root {
+  --bg: #09070e;
+  --panel: #15101d;
+  --purple: #9876c2;
+  --lav: #d9c9ee;
+  --muted: #a89bb5;
+  --line: #3c2c4b;
+  --white: #f5effb;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--white);
+  font-family: 'DM Sans', sans-serif;
+  overflow-x: hidden;
+}
+
+body:before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+  background:
+    radial-gradient(ellipse at 50% 20%, #281638 0%, transparent 48%),
+    radial-gradient(ellipse at 90% 80%, #1c1028 0%, transparent 40%),
+    #09070e;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+
+.serif {
+  font-family: 'Cormorant Garamond', serif;
+}
+
+.script {
+  font-family: 'Caveat', cursive;
+}
+
+#stars {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.star {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  border-radius: 50%;
+  background: #e6d8ff;
+  opacity: .5;
+  animation: twinkle 3s infinite alternate;
+}
+
+@keyframes twinkle {
+  to {
+    opacity: .12;
+    transform: scale(.5);
+  }
+}
+
+@keyframes float {
+  50% {
+    transform: translateY(-14px) rotate(5deg);
+  }
+}
+
+@keyframes pulse {
+  50% {
+    box-shadow: 0 0 35px #9a72cc66;
+  }
+}
+
+.scene {
+  position: relative;
+  z-index: 1;
+  min-height: 100svh;
+  padding: 90px 7vw 70px;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+  animation: fade .8s ease both;
+}
+
+.scene.active {
+  display: flex;
+}
+
+@keyframes fade {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.eyebrow {
+  color: var(--purple);
+  text-transform: uppercase;
+  letter-spacing: .28em;
+  font-size: .68rem;
+  margin-bottom: 18px;
+}
+
+h1 {
+  font: 500 clamp(3rem, 8vw, 6.8rem)/.95 'Cormorant Garamond', serif;
+  max-width: 900px;
+  margin-bottom: 24px;
+}
+
+h2 {
+  font: 500 clamp(2.4rem, 6vw, 4.5rem)/1 'Cormorant Garamond', serif;
+  margin-bottom: 14px;
+}
+
+h3 {
+  font: 500 1.7rem 'Cormorant Garamond', serif;
+}
+
+p {
+  margin-top: 0;
+}
+
+.lead {
+  color: #c4b6d1;
+  line-height: 1.8;
+  max-width: 590px;
+  font-size: 1rem;
+}
+
+.script {
+  font-size: 1.8rem;
+  color: var(--lav);
+}
+
+.btn {
+  border: 1px solid #80639e;
+  background: #24172f;
+  padding: 13px 23px;
+  border-radius: 999px;
+  transition: .25s;
+  letter-spacing: .04em;
+}
+
+.btn:hover {
+  background: #39234b;
+  transform: translateY(-2px);
+  box-shadow: 0 0 25px #9876c244;
+}
+
+.btn.ghost {
+  background: transparent;
+  border-color: #594568;
+  color: #d9c9ee;
+}
+
+.actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 28px;
+}
+
+.moon {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 35% 30%,
+    #f4eaff,
+    #b69bd4 35%,
+    #64477e 72%,
+    #25152f
+  );
+  box-shadow: 0 0 55px #a77bd866;
+  margin-bottom: 34px;
+  animation: pulse 4s infinite;
+}
+
+.butterfly {
+  font-size: 2.2rem;
+  display: inline-block;
+  filter: drop-shadow(0 0 12px #c7a4ff);
+  animation: float 4s ease-in-out infinite;
+}
+
+/* Birthday cake */
+
+.cake-wrap {
+  position: relative;
+  margin: 20px auto 8px;
+  width: 210px;
+  height: 190px;
+}
+
+.cake {
+  position: absolute;
+  bottom: 8px;
+  left: 20px;
+  width: 170px;
+  height: 100px;
+  background: linear-gradient(90deg, #3c244d, #74528e, #3b234a);
+  border-radius: 12px 12px 22px 22px;
+  box-shadow: 0 15px 35px #0008, inset 0 -12px #281633;
+}
+
+.cake:before {
+  content: "";
+  position: absolute;
+  top: -15px;
+  left: 0;
+  width: 100%;
+  height: 30px;
+  border-radius: 50%;
+  background: #c8a9df;
+}
+
+.cake:after {
+  content: "";
+  position: absolute;
+  top: 4px;
+  left: 0;
+  width: 100%;
+  height: 20px;
+  border-radius: 50%;
+  background: #e3cbed;
+}
+
+.candle {
+  position: absolute;
+  z-index: 2;
+  bottom: 108px;
+  left: 101px;
+  width: 9px;
+  height: 48px;
+  background: repeating-linear-gradient(
+    45deg,
+    #e9d9f6 0 5px,
+    #8b6aaa 5px 9px
+  );
+  border-radius: 3px;
+}
+
+.flame {
+  position: absolute;
+  bottom: 151px;
+  left: 98px;
+  width: 16px;
+  height: 24px;
+  border-radius: 60% 40% 60% 40%;
+  background: radial-gradient(
+    circle at 50% 70%,
+    #fff4c9,
+    #ffbd72 45%,
+    #e879ac 75%
+  );
+  filter: drop-shadow(0 0 12px #ffb36c);
+  animation: flicker .18s infinite alternate;
+  transform: rotate(8deg);
+}
+
+@keyframes flicker {
+  to {
+    transform: rotate(-8deg) scale(.9);
+  }
+}
+
+.flame.out {
+  display: none;
+}
+
+.cake-hint {
+  font-size: .8rem;
+  color: var(--muted);
+}
+
+/* Butterfly and flower cards */
+
+.grid {
+  width: min(950px, 100%);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 15px;
+  margin: 35px auto 0;
+}
+
+.tile {
+  background: linear-gradient(145deg, #21162b, #100d17);
+  border: 1px solid #4b385c;
+  border-radius: 18px;
+  padding: 22px 17px;
+  min-height: 190px;
+  text-align: center;
+  transition: .3s;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.tile:hover {
+  transform: translateY(-6px);
+  border-color: #a17ac6;
+  box-shadow: 0 15px 40px #0005;
+}
+
+.tile .emoji {
+  font-size: 2.4rem;
+  display: block;
+  margin: 7px 0 14px;
+  filter: drop-shadow(0 0 10px #a17ac6);
+}
+
+.tile h3 {
+  margin: 0 0 7px;
+}
+
+.tile p {
+  color: var(--muted);
+  font-size: .83rem;
+  line-height: 1.55;
+  margin: 0;
+}
+
+.note {
+  display: none;
+  margin-top: 15px;
+  padding: 13px;
+  border-top: 1px solid var(--line);
+  font: 1.35rem 'Caveat', cursive;
+  color: #e4d4f2;
+}
+
+.tile.open .note {
+  display: block;
+}
+
+.tile.open {
+  background: #24172f;
+}
+
+.flower {
+  font-size: 2.7rem;
+  filter: drop-shadow(0 0 14px #b18ad4);
+}
+
+/* Memories */
+
+.memory-board {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 16px;
+  width: min(850px, 100%);
+  margin-top: 32px;
+}
+
+.polaroid {
+  background: #e9e0ee;
+  color: #251b2c;
+  padding: 12px 12px 22px;
+  transform: rotate(var(--rot));
+  box-shadow: 0 12px 30px #0007;
+  transition: .3s;
+}
+
+.polaroid:hover {
+  transform: rotate(0) translateY(-7px);
+}
+
+.photo {
+  height: 130px;
+  background: linear-gradient(
+    135deg,
+    #39264a,
+    #9b7bb5 50%,
+    #24152e
+  );
+  display: grid;
+  place-items: center;
+  font-size: 2rem;
+}
+
+.polaroid p {
+  font: 1.4rem 'Caveat', cursive;
+  text-align: center;
+  margin: 12px 0 0;
+}
+
+.final-message {
+  max-width: 750px;
+  font: clamp(1.8rem, 4vw, 3rem)/1.35 'Cormorant Garamond', serif;
+  color: #e8dcf2;
+}
+
+/* Navigation */
+
+.progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: #21172a;
+  z-index: 5;
+}
+
+.progress span {
+  display: block;
+  height: 100%;
+  width: 0;
+  background: linear-gradient(90deg, #72518f, #d5b8f3);
+  transition: width .5s;
+}
+
+.nav {
+  position: fixed;
+  z-index: 4;
+  bottom: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 8px;
+  padding: 7px;
+  background: #100c17cc;
+  border: 1px solid #382945;
+  border-radius: 999px;
+  backdrop-filter: blur(12px);
+}
+
+.nav button {
+  width: 8px;
+  height: 8px;
+  border: 0;
+  border-radius: 50%;
+  padding: 0;
+  background: #59476a;
+}
+
+.nav button.current {
+  background: #d7b9f3;
+  box-shadow: 0 0 10px #c59ce9;
+}
+
+#toast {
+  position: fixed;
+  z-index: 9;
+  bottom: 75px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #281a35;
+  border: 1px solid #684c80;
+  padding: 10px 17px;
+  border-radius: 999px;
+  color: #e6d8f2;
+  opacity: 0;
+  transition: .3s;
+  pointer-events: none;
+  font-size: .85rem;
+}
+
+.small {
+  font-size: .78rem;
+  color: #867a91;
+  margin-top: 25px;
+}
+
+@media(max-width:600px) {
+  .scene {
+    padding: 75px 22px 90px;
+  }
+
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .tile {
+    padding: 17px 12px;
+    min-height: 180px;
+  }
+
+  .nav {
+    bottom: 12px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div id="stars"></div>
+<div class="progress"><span id="progress"></span></div>
+<div id="toast"></div>
+
+<!-- CHAPTER 1: WELCOME -->
+
+<section class="scene active" id="s0">
+
+  <div class="moon"></div>
+
+  <div class="eyebrow">
+    A small place in the universe
+  </div>
+
+  <h1>
+    Somewhere in this universe,<br>
+    <em style="color:#c7a8e6">there's you.</em>
+  </h1>
+
+  <p class="lead">
+    And today, a little corner of it belongs entirely to you.
+  </p>
+
+  <div class="butterfly" style="margin-top:24px">
+    🦋
+  </div>
+
+  <div class="actions">
+    <button class="btn" onclick="go(1)">
+      Enter your little universe ↗
+    </button>
+  </div>
+
+  <p class="small">
+    A birthday keepsake, made with care.
+  </p>
+
+</section>
+
+
+<!-- CHAPTER 2: BIRTHDAY CAKE -->
+
+<section class="scene" id="s1">
+
+  <div class="eyebrow">
+    Chapter one · Make a wish
+  </div>
+
+  <h2>Before anything else...</h2>
+
+  <p class="lead">
+    Take a little moment. Think of a wish, then let the candle go.
+  </p>
+
+  <div class="cake-wrap">
+    <div class="candle"></div>
+    <div class="flame" id="flame"></div>
+    <div class="cake"></div>
+  </div>
+
+  <p class="cake-hint" id="cakeHint">
+     Msake a wish ✦
+  </p>
+
+  <div class="actions">
+
+    <button class="btn" id="blow" onclick="extinguish()">
+      Make a wish ✨
+    </button>
+
+    <button class="btn ghost" onclick="go(2)">
+      Skip to the surprises
+    </button>
+
+  </div>
+
+</section>
+
+
+<!-- CHAPTER 3: BUTTERFLIES -->
+
+<section class="scene" id="s2">
+
+  <div class="eyebrow">
+    Chapter two · The butterfly garden
+  </div>
+
+  <h2>Little things that remind me of you</h2>
+
+  <p class="lead">
+    Every butterfly carries a little piece of what makes you, you.
+    Tap each one to unfold its note.
+  </p>
+
+  <div class="grid">
+
+    <article class="tile" onclick="toggle(this)">
+      <span class="emoji">🦋</span>
+      <h3>The Eastern Black Swallowtail </h3>
+      <p>For the way you stand out without even trying.</p>
+      <div class="note">
+        There's no second version of you. That's the magic.
+      </div>
+    </article>
+
+    <article class="tile" onclick="toggle(this)">
+      <span class="emoji">🌙</span>
+      <h3>The Quiet Light</h3>
+      <p>For the calm you bring into ordinary moments.</p>
+      <div class="note">
+        Some people make the world feel softer. You're one of them.
+      </div>
+    </article>
+
+    <article class="tile" onclick="toggle(this)">
+      <span class="emoji">✨</span>
+      <h3>The Wonder</h3>
+      <p>For your curious, wonderfully unexpected side.</p>
+      <div class="note">
+        Never lose the little spark that makes you curious.
+      </div>
+    </article>
+
+    <article class="tile" onclick="toggle(this)">
+      <span class="emoji">🪻</span>
+      <h3>The Gentle One</h3>
+      <p>For the kindness tucked into the smallest things.</p>
+      <div class="note">
+        The little things you do matter more than you know.
+      </div>
+    </article>
+
+    <article class="tile" onclick="toggle(this)">
+      <span class="emoji">☄️</span>
+      <h3>The Adventurer</h3>
+      <p>For every new idea and every unexpected detour.</p>
+      <div class="note">
+        May life keep giving you beautiful places to wander.
+      </div>
+    </article>
+
+  </div>
+
+  <div class="actions">
+    <button class="btn" onclick="go(3)">
+      Follow the flowers →
+    </button>
+  </div>
+
+</section>
+
+
+<!-- CHAPTER 4: FLOWERS -->
+
+<section class="scene" id="s3">
+
+  <div class="eyebrow">
+    Chapter three · The flower archive
+  </div>
+
+  <h2>If you were a garden...</h2>
+
+  <p class="lead">
+    I think it would be full of flowers that each say something
+    words sometimes can't.
+  </p>
+
+  <div class="grid">
+
+    <article class="tile" onclick="toggle(this)">
+      <span class="emoji flower">🪻</span>
+      <h3>BLACK BAT FLOWERr</h3>
+      <p> It features an intensely gothic, dark silhouette .</p>
+      <div class="note">
+       the petals are actually incredibly soft, delicate, and velvety to the touch just like you 
+      </div>
+    </article>
+
+    <article class="tile" onclick="toggle(this)">
+      <span class="emoji flower">🌷</span>
+      <h3>Tulip</h3>
+      <p>For the happiness you bring along.</p>
+      <div class="note">
+        Somehow, the simplest moments become stories with you.
+      </div>
+    </article>
+
+    <article class="tile" onclick="toggle(this)">
+      <span class="emoji flower">🪷</span>
+      <h3>Lotus</h3>
+      <p>For growing through every season.</p>
+      <div class="note">
+        I hope you always remember how far you've come.
+      </div>
+    </article>
+
+    <article class="tile" onclick="toggle(this)">
+      <span class="emoji flower">🌸</span>
+      <h3>Blossom</h3>
+      <p>For the beauty of becoming.</p>
+      <div class="note">
+        There's so much ahead of you. I hope it surprises you kindly.
+      </div>
+    </article>
+
+    <article class="tile" onclick="toggle(this)">
+      <span class="emoji flower">🌺</span>
+      <h3>Orchid</h3>
+      <p>For being entirely, unmistakably yourself.</p>
+      <div class="note">
+        You don't need to be anyone else to be extraordinary.
+      </div>
+    </article>
+
+  </div>
+
+  <div class="actions">
+    <button class="btn" onclick="go(4)">
+      A few little memories →
+    </button>
+  </div>
+
+</section>
+
+
+<!-- CHAPTER 5: MEMORIES -->
+
+<section class="scene" id="s4">
+
+  <div class="eyebrow">
+    Chapter four · Pressed between the pages
+  </div>
+
+  <h2>The little things</h2>
+
+  <p class="lead">
+    A tiny scrapbook for the moments that deserve to stay.
+  </p>
+
+  <div class="memory-board">
+
+    <div class="polaroid" style="--rot:-3deg">
+      <div class="photo">✧</div>
+      <p>Us singing BTS lyrics in chat </p>
+    </div>
+
+    <div class="polaroid" style="--rot:2deg">
+      <div class="photo">☾</div>
+      <p>v i need your hel9</p>
+    </div>
+
+    <div class="polaroid" style="--rot:-1deg">
+      <div class="photo">♡</div>
+      <p> we love you </p>
+    </div>
+
+  </div>
+
+
+
+  <div class="actions">
+    <button class="btn" onclick="go(5)">
+      One last thing →
+    </button>
+  </div>
+
+</section>
+
+
+<!-- CHAPTER 6: FINAL MESSAGE -->
+
+<section class="scene" id="s5">
+
+  <div class="moon"></div>
+
+  <div class="eyebrow">
+    The final chapter · Just for you
+  </div>
+
+  <h2>
+    Out of all the little things in this universe...
+  </h2>
+
+  <p class="final-message">
+    I'm glad there's you.
+  </p>
+
+  <p class="lead" style="margin-top:18px">
+    May this next trip around the sun bring you gentle mornings,
+    unexpected joy, brave new beginnings, and a thousand reasons to smile.
+  </p>
+
+  <p class="script" style="margin-top:20px">
+    Happy Birthday ♡
+  </p>
+
+  <div class="actions">
+    <button class="btn" onclick="go(0)">
+      Replay this little universe ↺
+    </button>
+  </div>
+
+  <p class="small">
+    Made for someone who makes the universe feel a little brighter.
+  </p>
+
+</section>
+
+
+<!-- NAVIGATION -->
+
+<nav class="nav" aria-label="Chapter navigation" id="nav">
+</nav>
+
+
+<script>
+
+const total = 6;
+let current = 0;
+let wished = false;
+
+const nav = document.getElementById('nav');
+
+// Create navigation dots
+
+for (let i = 0; i < total; i++) {
+
+  let b = document.createElement('button');
+
+  b.setAttribute('aria-label', 'Go to chapter ' + (i + 1));
+
+  b.onclick = () => go(i);
+
+  nav.appendChild(b);
+
+}
+
+
+// Change chapter
+
+function go(n) {
+
+  current = n;
+
+  document.querySelectorAll('.scene').forEach((s, i) => {
+
+    s.classList.toggle('active', i === n);
+
+  });
+
+  [...nav.children].forEach((b, i) => {
+
+    b.classList.toggle('current', i === n);
+
+  });
+
+  document.getElementById('progress').style.width =
+    ((n + 1) / total * 100) + '%';
+
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth'
+  });
+
+  if (n === 0) {
+    wished = false;
+  }
+
+}
+
+
+// Open butterfly and flower cards
+
+function toggle(card) {
+
+  card.classList.toggle('open');
+
+}
+
+
+// Birthday candle interaction
+
+function extinguish() {
+
+  if (wished) {
+    go(2);
+    return;
+  }
+
+  wished = true;
+
+  document.getElementById('flame').classList.add('out');
+
+  document.getElementById('cakeHint').textContent =
+    'Your wish is on its way ✨';
+
+  document.getElementById('blow').textContent =
+    'Continue to the surprises →';
+
+  document.getElementById('blow').onclick = () => go(2);
+
+
+  // Magical star burst
+
+  for (let i = 0; i < 28; i++) {
+
+    let s = document.createElement('span');
+
+    s.textContent = ['✦', '✧', '·'][i % 3];
+
+    s.style.cssText = `
+      position: fixed;
+      left: ${35 + Math.random() * 30}%;
+      top: ${35 + Math.random() * 25}%;
+      color: #d8b9f5;
+      font-size: ${12 + Math.random() * 20}px;
+      z-index: 8;
+      pointer-events: none;
+      animation: fade 1.5s forwards;
+    `;
+
+    document.body.appendChild(s);
+
+    setTimeout(() => s.remove(), 1500);
+
+  }
+
+}
+
+
+// Generate background stars
+
+const stars = document.getElementById('stars');
+
+for (let i = 0; i < 85; i++) {
+
+  let s = document.createElement('i');
+
+  s.className = 'star';
+
+  s.style.left = Math.random() * 100 + '%';
+
+  s.style.top = Math.random() * 100 + '%';
+
+  s.style.animationDelay = Math.random() * 4 + 's';
+
+  s.style.opacity = .15 + Math.random() * .5;
+
+  stars.appendChild(s);
+
+}
+
+
+// Keyboard navigation
+
+document.addEventListener('keydown', e => {
+
+  if (e.key === 'ArrowRight' && current < total - 1) {
+    go(current + 1);
+  }
+
+  if (e.key === 'ArrowLeft' && current > 0) {
+    go(current - 1);
+  }
+
+});
+
+</script>
+
+</body>
+</html>
